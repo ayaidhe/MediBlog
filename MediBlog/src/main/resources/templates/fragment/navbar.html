@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Définition du fragment "navbar" -->
+<div th:fragment="navbar">
+    <style>
+        .mediblog-navbar {
+            background-color: #1e3a8a;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mediblog-navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.2s;
+        }
+
+        .mediblog-navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mediblog-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 30px;
+        }
+
+        .mediblog-logo span {
+            color: #90cdf4;
+        }
+    </style>
+
+    <nav class="mediblog-navbar">
+        <a class="mediblog-logo" th:href="@{/}">Medi<span>Blog</span></a>
+        <a th:href="@{/}">Accueil</a>
+        <a th:href="@{/blogs}">Blogs</a>
+        <a th:href="@{/blogs/create_blog}">Créer un blog</a>
+        <a th:href="@{/profile}">Profil</a>
+        <!-- Lien de déconnexion -->
+        <a th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se déconnecter</a>
+        <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+    </nav>
+</div>
+</body>
+</html>

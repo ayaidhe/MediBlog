@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediBlog - Accueil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #93c5fd;
+      --text-dark: #333;
+      --text-light: #555;
+      --bg-light: #f8fafc;
+      --white: #fff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    /* Navbar Styles */
+    .navbar-mediblog {
+      background-color: var(--primary);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .navbar-brand:hover {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .navbar-brand span {
+      color: var(--accent);
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      margin: 0 5px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--white);
+      background-color: rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+    }
+
+    .nav-link.active {
+      color: var(--white);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Hero Section */
+    .hero {
+      background-color: var(--primary);
+      background-image: linear-gradient(rgba(30, 58, 138, 0.8), rgba(30, 58, 138, 0.9)), url('/api/placeholder/1200/800');
+      background-size: cover;
+      background-position: center;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--white);
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 700px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .cta-buttons {
+      margin-top: 2rem;
+    }
+
+    .btn-main {
+      background-color: var(--primary-light);
+      color: var(--white);
+      padding: 0.9rem 2.2rem;
+      margin: 0 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-main:hover {
+      background-color: var(--primary-dark);
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    /* Main Section */
+    .section {
+      padding: 80px 30px;
+      text-align: center;
+      background-color: var(--white);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .section h2 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background-color: var(--primary-light);
+      border-radius: 3px;
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 1.5rem auto 40px;
+      color: var(--text-light);
+    }
+
+    /* Features */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature {
+      max-width: 300px;
+      text-align: center;
+      padding: 20px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-img {
+      width: 100%;
+      height: 180px;
+      border-radius: 10px;
+      background-color: #e5e7eb;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .feature h5 {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .feature p {
+      color: var(--text-light);
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 40px 20px 20px;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 10px 0;
+    }
+
+    .footer-links {
+      margin: 20px 0;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 10px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--white);
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .navbar-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+
+      .btn-main {
+        display: block;
+        margin: 1rem auto;
+        width: 80%;
+        max-width: 300px;
+      }
+
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature {
+        width: 100%;
+        max-width: 350px;
+      }
+
+      .section {
+        padding: 50px 20px;
+      }
+    }
+
+    /* Menu mobile toggle */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      .mobile-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="fragment/navbar :: navbar"></div>
+
+
+<!-- Hero -->
+<div class="hero">
+  <h1>MediBlog</h1>
+  <p>Le blog médical collaboratif pour partager, apprendre et évoluer dans le monde de la santé.</p>
+  <div class="cta-buttons">
+    <a class="btn-main" th:href="@{/login}">Se connecter</a>
+    <a class="btn-main" th:href="@{/register}">Créer un compte</a>
+  </div>
+</div>
+
+<!-- Why MediBlog -->
+<div class="section">
+  <h2>Pourquoi MediBlog ?</h2>
+  <p>Rejoignez une communauté d'experts, étudiants et passionnés pour enrichir et diffuser le savoir médical.</p>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-img">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+      </div>
+      <h5>Partage de connaissances</h5>
+      <p>Publiez des articles, lisez des avis médicaux et échangez avec d'autres professionnels de santé.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-img">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <h5>Communauté engagée</h5>
+      <p>Un espace sûr pour poser des questions, commenter et contribuer activement au domaine médical.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-img">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+      </div>
+      <h5>Apprentissage continu</h5>
+      <p>Restez à jour avec les dernières tendances, recherches et discussions du secteur médical.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer simple intégré dans la page -->
+<div th:replace="fragment/footer :: footer"></div>
+<script>
+  function toggleNav() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+  }
+</script>
+
+</body>
+</html>

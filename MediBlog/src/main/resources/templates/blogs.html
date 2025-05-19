@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blogs | MediBlog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #a3b8ff;
+            --light-bg: #f8f9fa;
+            --dark-gray: #6c757d;
+            --text-primary: #333333;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E") repeat;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            color: white;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .blog-list-heading {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .blog-card {
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            background: var(--light-bg);
+            overflow: hidden;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-text {
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .blog-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-item i {
+            color: var(--secondary-color);
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .read-more:hover {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            color: white;
+        }
+
+        .blog-stats {
+            background: linear-gradient(45deg, rgba(30, 58, 138, 0.05), rgba(59, 130, 246, 0.05));
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stats-item {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stats-label {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .no-blogs {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 12px;
+            border: 1px dashed var(--dark-gray);
+        }
+
+        .no-blogs-icon {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .no-blogs h3 {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .shimmer {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+            background-size: 1000px 100%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-animation {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .date-badge {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .blog-container {
+                padding: 1.25rem;
+            }
+
+            .blog-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<!-- Section Hero -->
+<div class="container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-stethoscope"></i> MediBlog
+            </h1>
+            <p class="hero-subtitle">
+                Explorez nos articles médicaux et partagez vos connaissances professionnelles
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Section des blogs -->
+<div class="container">
+    <div class="blog-container">
+        <!-- Statistiques des blogs -->
+        <div th:if="${blogs != null and !#lists.isEmpty(blogs)}" class="blog-stats">
+            <div class="stats-item">
+                <span class="stats-number" th:text="${#lists.size(blogs)}">0</span>
+                <span class="stats-label">Articles</span>
+            </div>
+            <div class="stats-item">
+                <span class="stats-number">
+                    <i class="fas fa-users"></i>
+                </span>
+                <span class="stats-label">Contributeurs</span>
+            </div>
+            <div class="stats-item">
+                <span class="stats-number">
+                    <i class="fas fa-calendar-alt"></i>
+                </span>
+                <span class="stats-label">Publié aujourd'hui</span>
+            </div>
+        </div>
+
+        <h2 class="blog-list-heading" th:if="${blogs != null and !#lists.isEmpty(blogs)}">
+            <i class="fas fa-file-medical"></i> Articles récents
+        </h2>
+
+        <!-- Liste des blogs (sans images) -->
+        <div class="blog-list" th:if="${blogs != null and !#lists.isEmpty(blogs)}">
+            <div class="loading-animation"
+                 th:each="blog, iterStat : ${blogs}"
+                 th:style="'animation-delay: ' + ${iterStat.index * 0.1} + 's'">
+                <div class="card blog-card">
+                    <div class="card-header" th:text="${blog.titre}">Titre de l'article</div>
+                    <div class="card-body">
+                        <div class="blog-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user-md"></i>
+                                <span>Par <strong th:text="${blog.auteur != null} ? ${blog.auteur.username} : 'Auteur inconnu'">Auteur</strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>19 Mai 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-bookmark"></i>
+                                <span>Médecine</span>
+                            </div>
+                        </div>
+
+                        <p class="card-text" th:text="${#strings.abbreviate(blog.contenu, 200)}">
+                            Contenu de l'article tronqué... Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Donec euismod, nisl eget consectetur sagittis, nisl libero ullamcorper nunc, euismod
+                            aliquam magna nisl eget nisl.
+                        </p>
+
+                        <a th:href="@{/blogs/{id}(id=${blog.id})}" class="read-more">
+                            <span>Lire l'article</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message si aucun blog -->
+        <div th:if="${blogs == null or #lists.isEmpty(blogs)}" class="no-blogs">
+            <div class="no-blogs-icon">
+                <i class="fas fa-file-medical"></i>
+            </div>
+            <h3>Aucun article disponible</h3>
+            <p class="text-muted">
+                Il n'y a pas encore d'articles publiés dans MediBlog. Revenez bientôt pour découvrir nos nouveaux contenus médicaux ou partagez votre expertise !
+            </p>
+            <a th:href="@{/blogs/create}" class="read-more mt-3">
+                <i class="fas fa-plus-circle"></i>
+                <span>Créer un article</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Animation au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.loading-animation');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100 + (index * 100));
+        });
+    });
+</script>
+</body>
+</html>

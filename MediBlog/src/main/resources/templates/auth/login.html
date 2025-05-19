@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Connexion - MediBlog</title>
+    <style>
+        /* Reset simple */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 1.5rem;
+            color: #1e3a8a; /* bleu professionnel */
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #1e3a8a;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3b5abd;
+        }
+        .info-text {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .info-text a {
+            color: #1e3a8a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .error {
+            color: #d32f2f;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .logout-msg {
+            color: #388e3c;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Connexion à MediBlog</h2>
+
+    <form th:action="@{/login}" method="post">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" placeholder="exemple@domaine.com" required autofocus />
+
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" name="password" placeholder="Votre mot de passe" required />
+
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <div class="info-text">
+        Pas encore inscrit ? <a th:href="@{/register}">Créer un compte</a>
+    </div>
+
+    <!-- Gestion des messages d'erreur ou de logout -->
+    <div th:if="${param.error}" class="error">
+        Email ou mot de passe invalide.
+    </div>
+    <div th:if="${param.logout}" class="logout-msg">
+        Vous êtes déconnecté avec succès.
+    </div>
+</div>
+</body>
+</html>

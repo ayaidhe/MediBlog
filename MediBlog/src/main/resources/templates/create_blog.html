@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer un nouveau blog</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .blog-form-container {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      padding: 30px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      color: #3d5a80;
+      font-weight: 600;
+      margin-bottom: 25px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .page-title:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 60px;
+      height: 4px;
+      background: #ee6c4d;
+      border-radius: 2px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .form-control:focus {
+      border-color: #3d5a80;
+      box-shadow: 0 0 0 0.25rem rgba(61, 90, 128, 0.25);
+    }
+
+    .blog-submit-btn {
+      background-color: #3d5a80;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .blog-submit-btn:hover {
+      background-color: #2b4162;
+      transform: translateY(-2px);
+    }
+
+    .blog-cancel-btn {
+      background-color: #98c1d9;
+      border: none;
+      color: #293241;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .blog-cancel-btn:hover {
+      background-color: #e0fbfc;
+    }
+
+    .file-upload-wrapper {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .custom-file-upload {
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      border-color: #3d5a80;
+    }
+
+    .upload-icon {
+      font-size: 32px;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+
+    #image {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    #file-chosen {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<div class="container blog-form-container">
+  <h1 class="page-title">Créer un nouveau blog</h1>
+
+  <form th:action="@{/blogs/create_blog}" method="post" enctype="multipart/form-data">
+    <div class="mb-4">
+      <label for="titre" class="form-label">Titre de votre article</label>
+      <input type="text" class="form-control form-control-lg" id="titre" name="titre" placeholder="Saisissez un titre accrocheur" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="contenu" class="form-label">Contenu</label>
+      <textarea class="form-control" id="contenu" name="contenu" rows="12" placeholder="Partagez vos idées ici..." required></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Image de couverture (optionnelle)</label>
+      <div class="file-upload-wrapper">
+        <label for="image" class="custom-file-upload">
+          <i class="fas fa-cloud-upload-alt upload-icon"></i>
+          <div>Glissez-déposez une image ou cliquez pour parcourir</div>
+          <div id="file-chosen">Aucun fichier sélectionné</div>
+        </label>
+        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary btn-lg blog-submit-btn">
+        <i class="fas fa-paper-plane me-2"></i>Publier
+      </button>
+      <a th:href="@{/blogs}" class="btn btn-secondary btn-lg blog-cancel-btn">
+        <i class="fas fa-times me-2"></i>Annuler
+      </a>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Afficher le nom du fichier sélectionné
+  const fileInput = document.getElementById('image');
+  const fileChosen = document.getElementById('file-chosen');
+
+  fileInput.addEventListener('change', function() {
+    if(this.files && this.files.length > 0) {
+      fileChosen.textContent = this.files[0].name;
+    } else {
+      fileChosen.textContent = 'Aucun fichier sélectionné';
+    }
+  });
+</script>
+</body>
+</html>

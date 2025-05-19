@@ -1,0 +1,199 @@
+<!-- fragment/footer.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="footer">
+    <footer class="footer-container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3 class="footer-title">MediBlog</h3>
+                <p class="footer-tagline">Partagez votre savoir médical</p>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-links-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/blogs">Articles</a></li>
+                        <li><a href="/blogs/create">Rédiger</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-section">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                &copy; 2025 MediBlog | Un projet professionnel par <span class="author-name">Aya</span>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .footer-container {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 0;
+            margin-top: 60px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 20px;
+            justify-content: space-between;
+        }
+
+        .footer-brand {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-tagline {
+            opacity: 0.8;
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 2;
+            justify-content: space-around;
+        }
+
+        .footer-links-section {
+            margin: 0 10px 20px;
+            min-width: 150px;
+        }
+
+        .footer-links-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-links-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #4f73d9;
+        }
+
+        .footer-links-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links-section a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            background-color: rgba(0, 0, 0, 0.15);
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .footer-copyright {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #a3b8ff;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                margin-top: 30px;
+            }
+
+            .footer-links-section {
+                margin-bottom: 25px;
+            }
+        }
+    </style>
+
+    <!-- Assurez-vous d'ajouter Font Awesome à votre document principal si ce n'est pas déjà fait -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</div>
+</body>
+</html>
